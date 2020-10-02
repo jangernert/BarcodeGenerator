@@ -1,0 +1,26 @@
+stages:
+  - build
+
+variables:
+  RELEASE_PATH: 'Tools\BarcodeGenerator'
+
+run-build:
+  stage: build
+  before_script:
+    # Run GitVersion
+    - '& $GITVERSION_PATH /output buildserver'
+
+    - $OBJ_VERSION = convertfrom-stringdata (get-content gitversion.properties -raw)
+    - $NICE_VERSION = "$($OBJ_VERSION.'GitVersion_Major').$($OBJ_VERSION.'GitVersion_Minor').$($OBJ_VERSION.'GitVersion_Patch')"
+    - $FULL_VERSION = "$NICE_VERSION.$CI_PIPELINE_IID"
+    - $RELEASE_FOLDER = if ("stable" -eq $CI_COMMIT_REF_NAME) {"v.$NICE_VERSION"} else {".unstable\$CI_PIPELINE_IID-$CI_COMMIT_REF_NAME"}
+    - $PUBLISH_PATH_NETWORK = "$NETWORK_RELEASE_BASE_PATH\$RELEASE_PATH\$RELEASE_FOLDER"
+  script:
+    - dotnet --version
+    - echo $CARGO_VERSION
+    - echo $NICE_VERSION
+    - echo $FULL_VERSION
+    - echo $RELEASE_FOLDER
+    - echo $PUBLISH_PATH_NETWORK
+
+    - dotnet publish --configuration Release --runtime win-x64 --output $PUBLISH_PATH_NETWORK
