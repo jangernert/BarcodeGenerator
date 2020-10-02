@@ -90,14 +90,15 @@
 				</ComboBox.ItemTemplate>
 			</ComboBox>
 
-			<Image Stretch="Uniform" Grid.Row="3" Grid.ColumnSpan="2" Height="100" Margin="5,0,5,10" Source="{Binding Image, Converter={StaticResource BitmapConverter}}" HorizontalAlignment="Center">
-				<Image.IsVisible>
+			<Viewbox Stretch="Uniform" Grid.Row="3" Grid.ColumnSpan="2" Height="100" Width="350" Margin="5,0,5,10" HorizontalAlignment="Center">
+				<Image Stretch="None"  Source="{Binding Image, Converter={StaticResource BitmapConverter}}" />
+				<Viewbox.IsVisible>
 					<MultiBinding Converter="{x:Static BoolConverters.And}">
 						<Binding Path="DataFilled" />
 						<Binding Path="!RenderFailed" />
 					</MultiBinding>
-				</Image.IsVisible>
-			</Image>
+				</Viewbox.IsVisible>
+			</Viewbox>
 			<TextBlock Text="Enter necessary Data to display Barcode Preview" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,40,0,50" Height="20" IsVisible="{Binding !DataFilled}" VerticalAlignment="Center" HorizontalAlignment="Center" />
 			<TextBlock Text="{Binding RenderingException}" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,40,0,50" Height="20" IsVisible="{Binding RenderFailed}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" />
 

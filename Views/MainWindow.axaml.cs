@@ -9,6 +9,7 @@ using BarcodeLib;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Drawing;
 
 namespace BarcodeGenerator.Views
 {
@@ -27,6 +28,7 @@ namespace BarcodeGenerator.Views
             _barcode = new Barcode()
             {
                 IncludeLabel = false,
+                BackColor = Color.Transparent,
             };
 
             _viewModel = new MainWindowViewModel();
