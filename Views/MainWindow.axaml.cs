@@ -100,6 +100,34 @@ namespace BarcodeGenerator.Views
             }
         }
 
+        private string BuildFileName()
+        {
+            switch (_viewModel.SelectedBarcodeType)
+            {
+                case BarcodeType.Normal:
+                    return _viewModel.NormalBarcodeContent;
+
+                case BarcodeType.MagicCommand:
+                    if (_viewModel.MagicIsCustomCommand)
+                    {
+                        return $"magic_{_viewModel.CustomMagicCommand}";
+                    }
+                    else
+                    {
+                        return $"magic_{_viewModel.SelectedMagicCommand}";
+                    }
+
+                case BarcodeType.MagicCheckbox:
+                    return $"magic_ToggleCheckbox_{_viewModel.MagicCheckboxID}";
+
+                case BarcodeType.MagicTextEntry:
+                    return $"magic_FillEntry_{_viewModel.MagicEntryID}_{_viewModel.MagicEntryText}";
+
+                default:
+                    return "";
+            }
+        }
+
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
@@ -108,6 +136,7 @@ namespace BarcodeGenerator.Views
         private async void OnExport()
         {
             var dialog = new SaveFileDialog();
+            dialog.InitialFileName = $"barcode_{BuildFileName()}";
             dialog.Filters.Add(new FileDialogFilter() { Name = "PNG", Extensions = { "png" } });
             dialog.Filters.Add(new FileDialogFilter() { Name = "JPEG", Extensions = { "jpg" } });
             var result = await dialog.ShowAsync(this);
