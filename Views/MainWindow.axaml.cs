@@ -90,10 +90,10 @@ namespace BarcodeGenerator.Views
                     }
 
                 case BarcodeType.MagicCheckbox:
-                    return MagicPrefix + "ToggleCheckbox" + _viewModel.MagicCheckboxID;
+                    return MagicPrefix + "ToggleCheckbox" + MagicPrefix + _viewModel.MagicCheckboxID;
 
                 case BarcodeType.MagicTextEntry:
-                    return MagicPrefix + "FillEntry" + _viewModel.MagicEntryID + MagicPrefix + _viewModel.MagicEntryText;
+                    return MagicPrefix + "FillEntry" + MagicPrefix + _viewModel.MagicEntryID + MagicPrefix + _viewModel.MagicEntryText;
 
                 default:
                     return "";
