@@ -124,7 +124,7 @@ namespace BarcodeGenerator.Views
                     return $"magic_FillEntry_{_viewModel.MagicEntryID}_{_viewModel.MagicEntryText}";
 
                 default:
-                    return "";
+                    return "unknown";
             }
         }
 
