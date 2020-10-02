@@ -23,4 +23,4 @@ run-build:
     - echo $RELEASE_FOLDER
     - echo $PUBLISH_PATH_NETWORK
 
-    - dotnet publish --configuration Release --runtime win-x64 --output $PUBLISH_PATH_NETWORK
+    - dotnet publish --configuration Release --runtime win-x64 --output $PUBLISH_PATH_NETWORK --self-contained true -p:PublishSingleFile=true
