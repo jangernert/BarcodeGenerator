@@ -32,8 +32,7 @@ namespace BarcodeGenerator
                 .UsePlatformDetect()
                 .UseSkia()
                 .LogToDebug()
-                .UseReactiveUI()
-                .UseManagedSystemDialogs();
+                .UseReactiveUI();
 
         static void SilenceConsole()
         {
