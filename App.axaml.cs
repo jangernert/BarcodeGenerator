@@ -15,10 +15,15 @@ namespace BarcodeGenerator
 
         public override void OnFrameworkInitializationCompleted()
         {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
             {
-                desktop.MainWindow = new MainWindow();
+                desktopLifetime.MainWindow = new MainWindow();
+            }  
+            else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewLifetime)
+            {
+                singleViewLifetime.MainView = new MainView();
             }
+                
 
             base.OnFrameworkInitializationCompleted();
         }
