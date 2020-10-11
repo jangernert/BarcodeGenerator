@@ -21,6 +21,12 @@ namespace BarcodeGenerator
                 SilenceConsole();
                 return builder.StartLinuxDrm(args, scaling: 1);
             }
+
+            if (args.Contains("--fbdev"))
+            {
+                SilenceConsole();
+                return builder.StartLinuxFbDev(args, scaling: 1);
+            }
             
             
             return builder.StartWithClassicDesktopLifetime(args);
