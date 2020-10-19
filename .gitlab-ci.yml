@@ -15,6 +15,7 @@ run-build:
     - $FULL_VERSION = "$NICE_VERSION.$CI_PIPELINE_IID"
     - $RELEASE_FOLDER = if ("stable" -eq $CI_COMMIT_REF_NAME) {"v.$NICE_VERSION"} else {".unstable\$CI_PIPELINE_IID-$CI_COMMIT_REF_NAME"}
     - $PUBLISH_PATH_NETWORK = "$NETWORK_RELEASE_BASE_PATH\$RELEASE_PATH\$RELEASE_FOLDER"
+    - $PUBLISH_PATH_ONEDRIVE = "$env:ONEDRIVE\$ONEDRIVE_RELEASES_FOLDER\$RELEASE_PATH\$RELEASE_FOLDER"
   script:
     - dotnet --version
     - echo $CARGO_VERSION
@@ -22,5 +23,7 @@ run-build:
     - echo $FULL_VERSION
     - echo $RELEASE_FOLDER
     - echo $PUBLISH_PATH_NETWORK
+    - echo $PUBLISH_PATH_ONEDRIVE
 
     - dotnet publish --configuration Release --runtime win-x64 --output $PUBLISH_PATH_NETWORK --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true
+    - 'if ("stable" -eq $CI_COMMIT_REF_NAME -or "master" -eq $CI_COMMIT_REF_NAME) { mkdir $PUBLISH_PATH_ONEDRIVE; xcopy /E /Y /V "$PUBLISH_PATH_NETWORK\*" "$PUBLISH_PATH_ONEDRIVE" }'
