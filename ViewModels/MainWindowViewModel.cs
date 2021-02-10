@@ -60,13 +60,15 @@ namespace BarcodeGenerator.ViewModels
                 })
                 .ToProperty(this, nameof(DataFilled), out _dataFilled);
 
-            this.WhenAnyValue(x => x.NormalBarcodeSelected, x => x.NormalBarcodeContent)
+            this.WhenAnyValue(x => x.NormalBarcodeSelected, x => x.NormalBarcodeContent).Where(x => x.Item1)
                 .Subscribe(_ => RenderBarcode?.Invoke());
-            this.WhenAnyValue(x => x.MagicCommandSelected, x => x.MagicIsCustomCommand, x => x.SelectedMagicCommand, x => x.CustomMagicCommand)
+            this.WhenAnyValue(x => x.MagicCommandSelected, x => x.MagicIsCustomCommand, x => x.SelectedMagicCommand, x => x.CustomMagicCommand).Where(x => x.Item1)
                 .Subscribe(_ => RenderBarcode?.Invoke());
-            this.WhenAnyValue(x => x.MagicCheckboxSelected, x => x.MagicCheckboxID)
+            this.WhenAnyValue(x => x.MagicCheckboxSelected, x => x.MagicCheckboxID).Where(x => x.Item1)
                 .Subscribe(_ => RenderBarcode?.Invoke());
-            this.WhenAnyValue(x => x.MagicEntrySelected, x => x.MagicEntryID, x => x.MagicEntryText)
+            this.WhenAnyValue(x => x.MagicEntrySelected, x => x.MagicEntryID, x => x.MagicEntryText).Where(x => x.Item1)
+                .Subscribe(_ => RenderBarcode?.Invoke());
+            this.WhenAnyValue(x => x.DataFilled)
                 .Subscribe(_ => RenderBarcode?.Invoke());
             this.WhenAnyValue(x => x.SelectedExportSize, x => x.CustomWidth, x => x.CustomHeight)
                 .Subscribe(_ => RenderBarcode?.Invoke());
