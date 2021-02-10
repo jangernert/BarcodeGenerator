@@ -74,6 +74,9 @@
 			<TextBlock Text="Entry Text" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" IsVisible="{Binding MagicEntrySelected}" />
 			<TextBox Grid.Row="2" Grid.Column="2" IsVisible="{Binding MagicEntrySelected}" Watermark="Entry Content" Margin="0,0,0,10" Text="{Binding MagicEntryText, Mode=TwoWay}" Width="200" HorizontalAlignment="Left"/>
 
+            <TextBlock Text="Entry ID" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" IsVisible="{Binding MagicClearSelected}" />
+            <TextBox Grid.Row="2" Grid.Column="2" IsVisible="{Binding MagicClearSelected}" Watermark="Widget ID" Margin="0,0,0,10" Text="{Binding MagicEntryID, Mode=TwoWay}" Width="200" HorizontalAlignment="Left"/>
+
 			<TextBlock Text="Image Size" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" />
 			<ComboBox Grid.Row="4" Grid.Column="1" Margin="0,0,0,10" Items="{Binding ExportSizes}" SelectedItem="{Binding SelectedExportSize}" Width="200" HorizontalAlignment="Left">
 				<ComboBox.ItemTemplate>

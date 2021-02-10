@@ -15,5 +15,7 @@ namespace BarcodeGenerator.Models
         MagicCheckbox,
         [Description("Magic Barcode to fill Entry")]
         MagicTextEntry,
+        [Description("Magic Barcode to clear Entry")]
+        MagicClearEntry,
     }
 }

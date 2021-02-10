@@ -93,6 +93,9 @@ namespace BarcodeGenerator.Views
                 case BarcodeType.MagicTextEntry:
                     return MagicPrefix + "FillEntry" + MagicPrefix + _viewModel.MagicEntryID + MagicPrefix + _viewModel.MagicEntryText;
 
+                case BarcodeType.MagicClearEntry:
+                    return MagicPrefix + "ClearEntry" + MagicPrefix + _viewModel.MagicEntryID;
+
                 default:
                     return "";
             }
