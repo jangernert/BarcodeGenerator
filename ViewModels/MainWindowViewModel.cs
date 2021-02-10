@@ -27,6 +27,7 @@ namespace BarcodeGenerator.ViewModels
             this.WhenAnyValue(x => x.SelectedBarcodeType, selected => selected == BarcodeType.MagicCommand).ToProperty(this, nameof(MagicCommandSelected), out _magicCommandSelected);
             this.WhenAnyValue(x => x.SelectedBarcodeType, selected => selected == BarcodeType.MagicCheckbox).ToProperty(this, nameof(MagicCheckboxSelected), out _magicCheckboxSelected);
             this.WhenAnyValue(x => x.SelectedBarcodeType, selected => selected == BarcodeType.MagicTextEntry).ToProperty(this, nameof(MagicEntrySelected), out _magicEntrySelected);
+            this.WhenAnyValue(x => x.SelectedBarcodeType, selected => selected == BarcodeType.MagicClearEntry).ToProperty(this, nameof(MagicClearSelected), out _magicClearSelected);
 
             this.WhenAnyValue(x => x.SelectedExportSize, selected => selected == ExportSize.Custom).ToProperty(this, nameof(CustomSizeSelected), out _customSizeSelected);
             this.WhenAnyValue(x => x.RenderingException, exception => !String.IsNullOrWhiteSpace(exception)).ToProperty(this, nameof(RenderFailed), out _renderFailed);
@@ -51,6 +52,8 @@ namespace BarcodeGenerator.ViewModels
                             return !String.IsNullOrWhiteSpace(checkID);
                         case BarcodeType.MagicTextEntry:
                             return !String.IsNullOrWhiteSpace(entryID) && !String.IsNullOrWhiteSpace(entryText);
+                        case BarcodeType.MagicClearEntry:
+                            return !String.IsNullOrWhiteSpace(entryID);
                         default:
                             return false;
                     }
@@ -80,6 +83,9 @@ namespace BarcodeGenerator.ViewModels
 
         private ObservableAsPropertyHelper<bool> _magicEntrySelected;
         public bool MagicEntrySelected => _magicEntrySelected.Value;
+
+        private ObservableAsPropertyHelper<bool> _magicClearSelected;
+        public bool MagicClearSelected => _magicClearSelected.Value;
 
         private ObservableAsPropertyHelper<bool> _customSizeSelected;
         public bool CustomSizeSelected => _customSizeSelected.Value;

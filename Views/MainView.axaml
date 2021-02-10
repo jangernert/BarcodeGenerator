@@ -1,0 +1,119 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:BarcodeGenerator.ViewModels;assembly=BarcodeGenerator"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="BarcodeGenerator.Views.MainView"
+		xmlns:converter="clr-namespace:BarcodeGenerator.Converter">
+    <UserControl.Resources>
+		<converter:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+		<converter:BitmapConverter x:Key="BitmapConverter" />
+	</UserControl.Resources>
+
+	<ScrollViewer>
+		<Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="150" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<TextBlock Text="Barcode Type" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10"/>
+			<ComboBox Items="{Binding BarcodeTypes}" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedItem="{Binding SelectedBarcodeType}" Margin="0,0,0,10" Width="200" Grid.Row="0" Grid.Column="1">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+
+			<TextBlock Text="Content" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" IsVisible="{Binding NormalBarcodeSelected}" />
+			<TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" IsVisible="{Binding NormalBarcodeSelected}" Watermark="Barcode Content" Text="{Binding NormalBarcodeContent, Mode=TwoWay}" Width="200" HorizontalAlignment="Left" />
+
+			<TextBlock Text="Custom Command" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" IsVisible="{Binding MagicCommandSelected}" />
+			<CheckBox x:Name="CustomCommandCheckbox" Grid.Row="1" Grid.Column="1" IsVisible="{Binding MagicCommandSelected}" Margin="0,0,0,10" IsChecked="{Binding MagicIsCustomCommand}"/>
+
+			<TextBlock Text="Command" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" IsVisible="{Binding MagicCommandSelected}" />
+			<TextBox Grid.Row="2" Grid.Column="1" IsVisible="{Binding MagicCommandSelected}" Margin="0,0,0,10" Watermark="CustomCommand" Text="{Binding CustomMagicCommand, Mode=TwoWay}" Width="200" HorizontalAlignment="Left">
+				<TextBox.IsVisible>
+					<MultiBinding Converter="{x:Static BoolConverters.And}">
+						<Binding Path="MagicCommandSelected" />
+						<Binding Path="IsChecked" ElementName="CustomCommandCheckbox" />
+					</MultiBinding>
+				</TextBox.IsVisible>
+			</TextBox>
+			<ComboBox Grid.Row="2" Grid.Column="1" IsVisible="{Binding MagicCommandSelected}" Margin="0,0,0,10" Items="{Binding MagicCommands}" SelectedItem="{Binding SelectedMagicCommand}" Width="200" HorizontalAlignment="Left">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+				<ComboBox.IsVisible>
+					<MultiBinding Converter="{x:Static BoolConverters.And}">
+						<Binding Path="MagicCommandSelected" />
+						<Binding Path="!IsChecked" ElementName="CustomCommandCheckbox" />
+					</MultiBinding>
+				</ComboBox.IsVisible>
+			</ComboBox>
+
+			<TextBlock Text="Checkbox ID" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" IsVisible="{Binding MagicCheckboxSelected}" />
+			<TextBox Grid.Row="1" Grid.Column="1" IsVisible="{Binding MagicCheckboxSelected}" Watermark="Widget ID" Margin="0,0,0,10" Text="{Binding MagicCheckboxID, Mode=TwoWay}" Width="200" HorizontalAlignment="Left"/>
+
+			<TextBlock Text="Entry ID" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" IsVisible="{Binding MagicEntrySelected}" />
+			<TextBox Grid.Row="1" Grid.Column="1" IsVisible="{Binding MagicEntrySelected}" Watermark="Widget ID" Margin="0,0,0,10" Text="{Binding MagicEntryID, Mode=TwoWay}" Width="200" HorizontalAlignment="Left"/>
+
+			<TextBlock Text="Entry Text" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" IsVisible="{Binding MagicEntrySelected}" />
+			<TextBox Grid.Row="2" Grid.Column="2" IsVisible="{Binding MagicEntrySelected}" Watermark="Entry Content" Margin="0,0,0,10" Text="{Binding MagicEntryText, Mode=TwoWay}" Width="200" HorizontalAlignment="Left"/>
+
+            <TextBlock Text="Entry ID" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" IsVisible="{Binding MagicClearSelected}" />
+            <TextBox Grid.Row="2" Grid.Column="2" IsVisible="{Binding MagicClearSelected}" Watermark="Widget ID" Margin="0,0,0,10" Text="{Binding MagicEntryID, Mode=TwoWay}" Width="200" HorizontalAlignment="Left"/>
+
+			<TextBlock Text="Image Size" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" />
+			<ComboBox Grid.Row="4" Grid.Column="1" Margin="0,0,0,10" Items="{Binding ExportSizes}" SelectedItem="{Binding SelectedExportSize}" Width="200" HorizontalAlignment="Left">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+
+			<Viewbox Stretch="Uniform" Grid.Row="3" Grid.ColumnSpan="2" Height="100" Width="350" Margin="5,0,5,10" HorizontalAlignment="Center">
+				<Image Stretch="None"  Source="{Binding Image, Converter={StaticResource BitmapConverter}}" />
+				<Viewbox.IsVisible>
+					<MultiBinding Converter="{x:Static BoolConverters.And}">
+						<Binding Path="DataFilled" />
+						<Binding Path="!RenderFailed" />
+					</MultiBinding>
+				</Viewbox.IsVisible>
+			</Viewbox>
+			<TextBlock Text="Enter necessary Data to display Barcode Preview" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,40,0,50" Height="20" IsVisible="{Binding !DataFilled}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+			<TextBlock Text="{Binding RenderingException}" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,40,0,50" Height="20" IsVisible="{Binding RenderFailed}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" />
+
+			<TextBlock Text="Custom Size" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,10" IsVisible="{Binding CustomSizeSelected}"/>
+			<Grid Grid.Row="5" Grid.Column="2" Margin="0,0,0,10" IsVisible="{Binding CustomSizeSelected}" Width="200" HorizontalAlignment="Left">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="20" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<TextBox Grid.Column="0" Text="{Binding CustomWidth, Mode=TwoWay}" Watermark="Width" UseFloatingWatermark="True" />
+				<TextBlock Text="x" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				<TextBox Grid.Column="2" Text="{Binding CustomHeight, Mode=TwoWay}" Watermark="Height" UseFloatingWatermark="True"/>
+			</Grid>
+
+			<Grid Grid.Row="6" Grid.ColumnSpan="2" Width="350" HorizontalAlignment="Left" >
+				<Button Content="Export" HorizontalAlignment="Right" IsEnabled="{Binding DataFilled}" Command="{Binding OnExport}" />
+			</Grid>
+
+		</Grid>
+	</ScrollViewer>
+</UserControl>
