@@ -4,6 +4,7 @@ stages:
 
 variables:
   RELEASE_PATH: 'Tools\BarcodeGenerator'
+  GIT_DEPTH: 0 # Deactivate shallow clones/fetches (required to support GitVersion)
 
 run-build:
   stage: build
