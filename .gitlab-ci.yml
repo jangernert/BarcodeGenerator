@@ -1,5 +1,6 @@
 stages:
   - build
+  - tag
 
 variables:
   RELEASE_PATH: 'Tools\BarcodeGenerator'
@@ -27,3 +28,26 @@ run-build:
 
     - dotnet publish --configuration Release --runtime win-x64 --output $PUBLISH_PATH_NETWORK --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true
     - 'if ("stable" -eq $CI_COMMIT_REF_NAME -or "master" -eq $CI_COMMIT_REF_NAME) { mkdir $PUBLISH_PATH_ONEDRIVE; xcopy /E /Y /V "$PUBLISH_PATH_NETWORK\*" "$PUBLISH_PATH_ONEDRIVE" }'
+
+tag_job:
+  stage: tag
+  only:
+    refs:
+      - branches
+    variables:
+      # Tag only "stable" builds
+      - $CI_COMMIT_REF_NAME == "stable"
+  before_script:
+    # Run GitVersion
+    - '& $GITVERSION_PATH /output buildserver'
+    - $OBJ_VERSION = convertfrom-stringdata (get-content gitversion.properties -raw)
+    - $NICE_VERSION = "$($OBJ_VERSION.'GitVersion_Major').$($OBJ_VERSION.'GitVersion_Minor').$($OBJ_VERSION.'GitVersion_Patch')"
+  script:
+    # Get write permissions for the repository
+    - git remote remove origin
+    - git remote add origin https://oauth2:${GITLAB_ACCESS_TOKEN}@gitlab.com/${CI_PROJECT_PATH}
+    # Create and push tag
+    - git tag -a "v.$NICE_VERSION" -m "$(get-date -Format u)"
+    - git push origin tag "v.$NICE_VERSION"
+  when: on_success
+  dependencies: []
