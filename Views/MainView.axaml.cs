@@ -47,6 +47,7 @@ namespace BarcodeGenerator.Views
                 try
                 {
                     _viewModel.Image = _barcode.Encode(TYPE.CODE128, content, width, height);
+                    string raw = _barcode.GenerateBarcode(content);
                 }
                 catch(Exception e)
                 {
@@ -123,6 +124,9 @@ namespace BarcodeGenerator.Views
 
                 case BarcodeType.MagicTextEntry:
                     return $"magic_FillEntry_{_viewModel.MagicEntryID}_{_viewModel.MagicEntryText}";
+
+                case BarcodeType.MagicClearEntry:
+                    return $"magic_ClearEntry_{_viewModel.MagicEntryID}";
 
                 default:
                     return "unknown";

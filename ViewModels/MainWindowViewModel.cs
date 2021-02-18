@@ -60,13 +60,13 @@ namespace BarcodeGenerator.ViewModels
                 })
                 .ToProperty(this, nameof(DataFilled), out _dataFilled);
 
-            this.WhenAnyValue(x => x.NormalBarcodeSelected, x => x.NormalBarcodeContent).Where(x => x.Item1)
+            this.WhenAnyValue(x => x.NormalBarcodeSelected, x => x.NormalBarcodeContent)
                 .Subscribe(_ => RenderBarcode?.Invoke());
-            this.WhenAnyValue(x => x.MagicCommandSelected, x => x.MagicIsCustomCommand, x => x.SelectedMagicCommand, x => x.CustomMagicCommand).Where(x => x.Item1)
+            this.WhenAnyValue(x => x.MagicCommandSelected, x => x.MagicIsCustomCommand, x => x.SelectedMagicCommand, x => x.CustomMagicCommand)
                 .Subscribe(_ => RenderBarcode?.Invoke());
-            this.WhenAnyValue(x => x.MagicCheckboxSelected, x => x.MagicCheckboxID).Where(x => x.Item1)
+            this.WhenAnyValue(x => x.MagicCheckboxSelected, x => x.MagicCheckboxID)
                 .Subscribe(_ => RenderBarcode?.Invoke());
-            this.WhenAnyValue(x => x.MagicEntrySelected, x => x.MagicEntryID, x => x.MagicEntryText).Where(x => x.Item1)
+            this.WhenAnyValue(x => x.MagicEntrySelected, x => x.MagicEntryID, x => x.MagicEntryText)
                 .Subscribe(_ => RenderBarcode?.Invoke());
             this.WhenAnyValue(x => x.DataFilled)
                 .Subscribe(_ => RenderBarcode?.Invoke());
