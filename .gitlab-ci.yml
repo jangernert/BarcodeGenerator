@@ -26,7 +26,8 @@ run-build:
     - echo $PUBLISH_PATH_NETWORK
     - echo $PUBLISH_PATH_ONEDRIVE
 
-    - dotnet publish --configuration Release --runtime win-x64 --output $PUBLISH_PATH_NETWORK --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true
+    # FIXME: set ReadyToRun=true once its fixed
+    - dotnet publish --configuration Release --runtime win-x64 --output $PUBLISH_PATH_NETWORK --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=false
     - 'if ("stable" -eq $CI_COMMIT_REF_NAME -or "master" -eq $CI_COMMIT_REF_NAME) { mkdir $PUBLISH_PATH_ONEDRIVE; xcopy /E /Y /V "$PUBLISH_PATH_NETWORK\*" "$PUBLISH_PATH_ONEDRIVE" }'
 
 tag_job:
